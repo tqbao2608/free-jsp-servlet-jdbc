@@ -19,6 +19,6 @@ public interface INewService {
 
 	NewsModel update(NewsModel newsModel);
 
-	NewsModel delete(NewsModel newsModel);
+	void delete(long[] ids);
 
 }

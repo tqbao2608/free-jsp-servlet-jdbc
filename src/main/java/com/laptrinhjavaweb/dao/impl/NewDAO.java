@@ -15,7 +15,7 @@ import com.laptrinhjavaweb.mapper.NewMapper;
 import com.laptrinhjavaweb.model.NewsModel;
 
 public class NewDAO extends AbstractDAO<NewsModel> implements INewDAO {
-	
+
 	@Override
 	public NewsModel findOne(Long id) {
 		String sql = "SELECT * FROM news WHERE id = ?";
@@ -31,21 +31,28 @@ public class NewDAO extends AbstractDAO<NewsModel> implements INewDAO {
 
 	@Override
 	public Long save(NewsModel newsModel) {
-		String sql = "INSERT INTO news (title, content, categoryid) VALUES (?, ?, ?)";
-		return insert(sql, newsModel.getTitle(), newsModel.getContent(), newsModel.getCategoryId());
+		StringBuilder sql = new StringBuilder("INSERT INTO news (") ;
+		sql.append("title, content, thumbnail, shortdescription, categoryid, createddate, createdby)");	
+		sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");
+		return insert(sql.toString(), newsModel.getTitle(), newsModel.getContent(),newsModel.getThumbnail(),newsModel.getShortDescription()
+				,newsModel.getCategoryId(), newsModel.getCreatedDate(), newsModel.getCreatedBy());
 	}
 
 	@Override
 	public void update(NewsModel newsModel) {
-		String sql = "UPDATE  news SET shortdescription = ? WHERE id = ?";
-		update(sql, newsModel.getShortDescription(), newsModel.getId());
+		StringBuilder sql = new StringBuilder("UPDATE news SET title = ?, thumbnail = ?,");
+		sql.append(" shortdescription = ?, content = ?, categoryid= ?,");
+		sql.append(" createddate = ?, createdby = ?, modifieddate = ?, modifiedby = ? WHERE id = ?");
+		update(sql.toString(), newsModel.getTitle(), newsModel.getThumbnail(), newsModel.getShortDescription(),
+				newsModel.getContent(), newsModel.getCategoryId(), newsModel.getCreatedDate(),
+				newsModel.getCreatedBy(),newsModel.getModifiedDate(), newsModel.getModifiedBy() ,newsModel.getId());
 
 	}
 
 	@Override
-	public void delete(NewsModel newsModel) {
+	public void delete(long id) {
 		String sql = "DELETE FROM news WHERE id = ?";
-		update(sql, newsModel.getId());
+		update(sql, id);
 
 	}
 

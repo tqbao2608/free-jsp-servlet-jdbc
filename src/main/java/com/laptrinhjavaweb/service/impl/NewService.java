@@ -8,6 +8,7 @@
 
 package com.laptrinhjavaweb.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,6 +28,8 @@ public class NewService implements INewService {
 
 	@Override
 	public NewsModel save(NewsModel newsModel) {
+		newsModel.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		newsModel.setCreatedBy("");
 		Long newId = newDAO.save(newsModel);
 		System.out.println(newId);
 		return newDAO.findOne(newId);
@@ -34,15 +37,22 @@ public class NewService implements INewService {
 	}
 
 	@Override
-	public NewsModel delete(NewsModel newsModel) {
-		newDAO.delete(newsModel);
-		return null;
+	public NewsModel update(NewsModel newsModel) {
+		NewsModel oldNew = newDAO.findOne(newsModel.getId());
+		newsModel.setCreatedDate(oldNew.getCreatedDate());
+		newsModel.setCreatedBy(oldNew.getCreatedBy());
+		newsModel.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+		newsModel.setModifiedBy("");
+		newDAO.update(newsModel);
+		return newDAO.findOne(newsModel.getId());
 	}
 
 	@Override
-	public NewsModel update(NewsModel newsModel) {
-		newDAO.update(newsModel);
-		return null;
+	public void delete(long[] ids) {
+		for(long id: ids) {
+			newDAO.delete(id);
+		}
+		
 	}
 
 }

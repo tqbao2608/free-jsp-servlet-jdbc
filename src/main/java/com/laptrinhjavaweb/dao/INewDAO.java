@@ -22,6 +22,6 @@ public interface INewDAO extends IGenericDAO<NewsModel> {
 
 	void update(NewsModel newsModel);
 
-	void delete(NewsModel newsModel);
+	void delete(long id);
 
 }

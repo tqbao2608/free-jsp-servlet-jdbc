@@ -43,11 +43,22 @@ public class NewAPI extends HttpServlet {
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		ObjectMapper mapper = new ObjectMapper();
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		NewsModel  updateModel = HttpUtil.of(request.getReader()).toModel(NewsModel.class);
+		updateModel = newService.update(updateModel);
+		mapper.writeValue(response.getOutputStream(), updateModel);
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		ObjectMapper mapper = new ObjectMapper();
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		NewsModel  updateModel = HttpUtil.of(request.getReader()).toModel(NewsModel.class);
+		newService.delete(updateModel.getIds());
+		mapper.writeValue(response.getOutputStream(), "{}");
 	}
+	
 }
