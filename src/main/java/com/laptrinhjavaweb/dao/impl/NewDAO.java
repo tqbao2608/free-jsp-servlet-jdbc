@@ -56,4 +56,16 @@ public class NewDAO extends AbstractDAO<NewsModel> implements INewDAO {
 
 	}
 
+	@Override
+	public List<NewsModel> findAll() {
+		String sql = "SELECT * FROM news";
+		return query(sql, new NewMapper());
+	}
+
+	@Override
+	public int getTotalItem() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -20,5 +20,7 @@ public interface INewService {
 	NewsModel update(NewsModel newsModel);
 
 	void delete(long[] ids);
+	
+	List<NewsModel> findAll();
 
 }
