@@ -11,6 +11,7 @@ package com.laptrinhjavaweb.dao;
 import java.util.List;
 
 import com.laptrinhjavaweb.model.NewsModel;
+import com.laptrinhjavaweb.paging.Pageble;
 
 public interface INewDAO extends IGenericDAO<NewsModel> {
 	
@@ -24,7 +25,7 @@ public interface INewDAO extends IGenericDAO<NewsModel> {
 
 	void delete(long id);
 	
-	List<NewsModel> findAll();
+	List<NewsModel> findAll(Pageble pageble);
 
 	int getTotalItem();
 }

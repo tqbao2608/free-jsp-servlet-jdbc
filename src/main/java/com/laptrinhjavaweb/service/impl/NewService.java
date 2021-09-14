@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import com.laptrinhjavaweb.dao.INewDAO;
 import com.laptrinhjavaweb.model.NewsModel;
+import com.laptrinhjavaweb.paging.Pageble;
 import com.laptrinhjavaweb.service.INewService;
 
 public class NewService implements INewService {
@@ -56,8 +57,13 @@ public class NewService implements INewService {
 	}
 
 	@Override
-	public List<NewsModel> findAll() {
-		return newDAO.findAll();
+	public List<NewsModel> findAll(Pageble pageble) {
+		return newDAO.findAll(pageble);
+	}
+
+	@Override
+	public int getTotalItem() {
+		return newDAO.getTotalItem();
 	}
 
 }

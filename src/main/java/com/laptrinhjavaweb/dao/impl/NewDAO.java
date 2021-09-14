@@ -13,6 +13,7 @@ import java.util.List;
 import com.laptrinhjavaweb.dao.INewDAO;
 import com.laptrinhjavaweb.mapper.NewMapper;
 import com.laptrinhjavaweb.model.NewsModel;
+import com.laptrinhjavaweb.paging.Pageble;
 
 public class NewDAO extends AbstractDAO<NewsModel> implements INewDAO {
 
@@ -57,15 +58,21 @@ public class NewDAO extends AbstractDAO<NewsModel> implements INewDAO {
 	}
 
 	@Override
-	public List<NewsModel> findAll() {
-		String sql = "SELECT * FROM news";
-		return query(sql, new NewMapper());
+	public List<NewsModel> findAll(Pageble pageble) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM news");
+		if(pageble.getSorter() != null) {
+			sql.append(" ORDER BY "+pageble.getSorter().getSortName()+" "+pageble.getSorter().getSortBy()+"");
+		}
+		if(pageble.getOffset() != null && pageble.getLimit() != null) {
+			sql.append(" LIMIT "+pageble.getOffset()+", "+pageble.getLimit()+"");
+		} 
+			return query(sql.toString(), new NewMapper());	
 	}
 
 	@Override
 	public int getTotalItem() {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "SELECT count(*) FROM news";
+		return count(sql);
 	}
 
 }
